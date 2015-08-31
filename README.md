@@ -1,7 +1,7 @@
 Laravel Attributions
 =================
 [![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-orange.svg?style=flat-square)](http://laravel.com)
-[![Source](http://img.shields.io/badge/source-arkitecht/laravel-attributions-blue.svg?style=flat-square)](https://github.com/arkitecht/laravel-attributions)
+[![Source](http://img.shields.io/badge/source-arkitecht/attributions-blue.svg?style=flat-square)](https://github.com/arkitecht/laravel-attributions)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 
 Easily attribute the creator / last updater of a model in your database.
