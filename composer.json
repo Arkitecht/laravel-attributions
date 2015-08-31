@@ -1,0 +1,28 @@
+{
+	"name": "arkitech/laravel-attributions",
+	"description": "Laravel 5 - Track attributions (model creator / updater)",
+	"keywords": [
+		"attributions",
+		"credit",
+		"laravel",
+		"model",
+		"arkitecht"
+	],
+	"license": "MIT",
+	"authors": [
+	{
+		"name": "Aaron Rubin",
+		"email": "aaron@arkitech.net"
+	}
+	],
+	"require": {
+		"php": ">=5.5.9",
+		"illuminate/database": "5.1.*",
+		"illuminate/support": "5.1.*"		
+	},
+	"autoload": {
+		"psr-4": {
+			"Arkitecht\\Attributions\\": "src/Arkitecht/Attributions/"
+		}
+	}
+}
