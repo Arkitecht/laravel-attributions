@@ -1,7 +1,7 @@
 <?php
 namespace Arkitecht\Attributions\Facades;
 
-use Arkitecht\Attributions\Databse\Schema\Blueprint;
+use Arkitecht\Attributions\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Facade;
 
 class Schema extends Facade
