@@ -28,7 +28,7 @@ class Schema extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        $schema = static::$app['db']->connection($name)->getSchemaBuilder();
+        $schema = static::$app['db']->connection()->getSchemaBuilder();
 		$schema->blueprintResolver(function($table, $callback) {
           return new Blueprint($table, $callback);
         });
