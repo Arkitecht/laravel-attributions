@@ -25,6 +25,7 @@ Once this operation is complete, you can update the Schema Facade to point to ou
 
 ##### Facade (in config/app.php)
 ~~'Schema'    => Illuminate\Support\Facades\Schema::class,~~
+
 'Schema' 	=> Arkitecht\Attributions\Facades\Schema::class,
 
 
@@ -53,6 +54,63 @@ public function up()
     });
 }
 ```
+
+Using it in your migrations
+------------------
+To have your migration add the attribution columns, just call the Blueprint::attributions method.
+
+```php
+class CreateTestsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tests', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->attributions();
+        });
+    }
+	
+	...
+
+}
+```
+
+You can also have it reference an alternate table (from users) or key (from id).
+```php
+class CreateTestsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tests', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->attributions('employees','employee_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('tests');
+    }
+}
+```
+
 
 Using it in your model
 ------------------
