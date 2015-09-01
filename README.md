@@ -19,19 +19,20 @@ composer require arkitecht/laravel-attributions
 
 Schema Blueprint and Facades
 ------------------
-Once this operation is complete, simply you can update the Schema Facade to point to our drop-in replacement, which uses our Blueprint extension class to add the attributions.
+Once this operation is complete, you can update the Schema Facade to point to our drop-in replacement, which uses our Blueprint extension class to add the attributions.
 
 #### Laravel 5.1.x
 
-##### Facade
-```php
+##### Facade (in config/app.php)
 ~~'Schema'    => Illuminate\Support\Facades\Schema::class,~~
 'Schema' 	=> Arkitecht\Attributions\Facades\Schema::class,
-```
+
 
 You can also manually use the attributions builder, without overwriting the Facade like so:
 
 ```php
+use Arkitecht\Attributions\Database\Schema\Blueprint;
+
 /**
  * Run the migrations.
  *
