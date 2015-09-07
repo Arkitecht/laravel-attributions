@@ -9,6 +9,10 @@ class Blueprint extends LaravelBlueprint {
 
         $this->integer('updater_id')->unsigned()->nullable()->references($srcTable)->on($srcKey);
     }
+
+	public function dropAttributions() {
+		$this->dropColumn(array('creator_id','updater_id'));
+	}
 }
 
 ?>
