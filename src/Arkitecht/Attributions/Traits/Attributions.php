@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 trait Attributions
 {
+    protected $attributions_user_class = 'App\User';
+
     protected function performInsert(Builder $query, array $options = [])
     {
         $this->updateAttributions();
@@ -36,4 +38,15 @@ trait Attributions
 
         return null;
     }
+
+    public function creator()
+    {
+        return $this->belongsTo($this->attributions_user_class,'creator_id');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo($this->attributions_user_class,'updater_id');
+    }
+
 }
