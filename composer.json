@@ -24,5 +24,7 @@
 		"psr-4": {
 			"Arkitecht\\Attributions\\": "src/Arkitecht/Attributions/"
 		}
-	}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }
