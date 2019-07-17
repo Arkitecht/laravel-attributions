@@ -17,7 +17,7 @@ trait Attributions
      */
     public static function bootAttributions()
     {
-        self::deleted(function ($model) {
+        self::deleting(function ($model) {
             if ($model->usesSoftDeletes()) {
                 $model->updateDeleterAttribution();
             }
@@ -51,7 +51,7 @@ trait Attributions
     {
         $this->updateAttributions();
 
-        return parent::performUpdate($query, $options);
+        return $this->save();parent::performUpdate($query, $options);
     }
 
     /**
