@@ -1,4 +1,5 @@
 <?php
+
 namespace Arkitecht\Attributions\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +22,10 @@ trait Attributions
             if ($model->usesSoftDeletes()) {
                 $model->updateDeleterAttribution();
             }
+        });
+
+        self::registerModelEvent('restored', function ($model) {
+            $model->removeDeleterAttribution();
         });
     }
 
@@ -51,7 +56,7 @@ trait Attributions
     {
         $this->updateAttributions();
 
-        return $this->save();parent::performUpdate($query, $options);
+        return parent::performUpdate($query, $options);
     }
 
     /**
@@ -74,9 +79,24 @@ trait Attributions
      */
     public function updateDeleterAttribution()
     {
-        if ($this !== null && $this->trashed()) {
+        if ($this !== null) {
             $query = $this->newQueryWithoutScopes();
             $this->deleter_id = $this->getAttribution();
+            $saved = $this->performUpdate($query, []);
+        }
+    }
+
+    /**
+     * Update the deleter attribution of the model
+     *
+     * @return void
+     */
+    public function removeDeleterAttribution()
+    {
+        if ($this !== null) {
+            $query = $this->newQueryWithoutScopes();
+            $this->deleter_id = null;
+            $this->updater_id = $this->getAttribution();
             $saved = $this->performUpdate($query, []);
         }
     }
