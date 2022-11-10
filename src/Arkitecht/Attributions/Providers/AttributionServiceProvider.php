@@ -27,7 +27,14 @@ class AttributionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('db.schema', Builder::class);
+        $this->app->bind('db.schema', function ($app) {
+            $builder = $app['db']->connection()->getSchemaBuilder();
+            $builder->blueprintResolver(function ($table, $callback) {
+                return new Blueprint($table, $callback);
+            });
+
+            return $builder;
+        });
     }
 
     /**
