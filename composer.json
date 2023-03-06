@@ -1,6 +1,6 @@
 {
   "name": "arkitecht/laravel-attributions",
-  "description": "Laravel 5 - Track attributions (model creator / updater)",
+  "description": "Laravel 5/6/7/8/9/10 - Track attributions (model creator / updater)",
   "keywords": [
     "attributions",
     "credit",
@@ -17,8 +17,8 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "illuminate/database": "5.*|^6.0|^7.0|^8.0|^9.0",
-    "illuminate/support": "5.*|^6.0|^7.0|^8.0|^9.0"
+    "illuminate/database": "5.*|^6.0|^7.0|^8.0|^9.0|^10.0",
+    "illuminate/support": "5.*|^6.0|^7.0|^8.0|^9.0|^10.0"
   },
   "autoload": {
     "psr-4": {
