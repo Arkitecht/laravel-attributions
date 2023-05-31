@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 trait Attributions
 {
     protected $attributions_user_class = 'App\User';
+    public $attributions = true;
 
     /**
      * Boot the attributions trait for a model.
@@ -66,9 +67,11 @@ trait Attributions
      */
     public function updateAttributions()
     {
-        $this->updater_id = $this->getAttribution();
-        if (!$this->exists) {
-            $this->creator_id = $this->getAttribution();
+        if ($this->attributions) {
+            $this->updater_id = $this->getAttribution();
+            if (!$this->exists) {
+                $this->creator_id = $this->getAttribution();
+            }
         }
     }
 
@@ -154,5 +157,27 @@ trait Attributions
         $traits = class_uses(self::class);
 
         return in_array('Illuminate\Database\Eloquent\SoftDeletes', $traits);
+    }
+
+    /**
+     * Disable Update Attributions
+     *
+     * @return void
+     */
+    public function withoutUpdatingAttributions()
+    {
+        $this->attributions = false;
+        return $this;
+    }
+
+    /**
+     * Enable updating attributions
+     *
+     * @return void
+     */
+    public function withUpdatingAttributions()
+    {
+        $this->attributions = true;
+        return $this;
     }
 }
