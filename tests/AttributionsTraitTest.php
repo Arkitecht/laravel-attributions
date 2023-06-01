@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttributionsTraitTest extends \Orchestra\Testbench\TestCase
 {
@@ -197,9 +198,48 @@ class AttributionsTraitTest extends \Orchestra\Testbench\TestCase
         $this->assertEquals(0,Comment::count());
     }
 
+    /** @test */
+    function can_disable_and_enable_attributions()
+    {
+        $this->setupPostsTable();
+        Auth::loginUsingId($this->user->id);
+        $post = Post::create([
+            'user_id' => Auth::user()->id,
+            'title'   => 'An interesting Post',
+            'body'    => 'Some interesting things',
+        ]);
+
+        $this->assertEquals($this->user->id, $post->creator_id);
+        $this->assertEquals($this->user->id, $post->updater_id);
+
+        $user2 = TestUser::create(['name' => 'Roxy', 'email' => 'roxy@arkideas.com', 'password' => 'test']);
+
+        Auth::loginUsingId($user2->id);
+        //Updates the updater_id
+        $post->update(['title' => 'updated title']);
+        $post->refresh();
+        $this->assertEquals($user2->id, $post->updater_id);
+
+        Auth::loginUsingId($this->user->id);
+        //Disable updating the updater_id
+        $post->withoutUpdatingAttributions()->update(['title' => 'updated title2']);
+        $post->refresh();
+        $this->assertEquals($user2->id, $post->updater_id);
+
+        //Enable updating the updater_id
+        $post->withUpdatingAttributions()->update(['title' => 'updated title3']);
+        $post->refresh();
+        $this->assertEquals($this->user->id, $post->updater_id);
+    }
+
     private function setupPostsTable()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+        $schema->blueprintResolver(function($table, $callback) {
+            return new Blueprint($table, $callback);
+        });
+
+        $schema->create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('title');
@@ -211,7 +251,12 @@ class AttributionsTraitTest extends \Orchestra\Testbench\TestCase
 
     private function setupCommentsTable()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+        $schema->blueprintResolver(function($table, $callback) {
+            return new Blueprint($table, $callback);
+        });
+
+        $schema->create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('post_id');
