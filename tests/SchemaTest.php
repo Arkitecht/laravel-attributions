@@ -2,14 +2,19 @@
 
 use Arkitecht\Attributions\Database\Schema\Blueprint;
 use Arkitecht\Attributions\Facades\Schema;
-use Orchestra\Testbench\Contracts\TestCase;
+use Illuminate\Support\Facades\DB;
 
 class SchemaTest extends Orchestra\Testbench\TestCase
 {
     /** @test */
     function can_create_migration_with_attributions()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+        $schema->blueprintResolver(function($table, $callback) {
+            return new Blueprint($table, $callback);
+        });
+
+        $schema->create('posts', function($table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('title');
@@ -26,7 +31,12 @@ class SchemaTest extends Orchestra\Testbench\TestCase
     /** @test */
     function can_create_migration_with_attributions_and_deletes()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        $schema = DB::connection()->getSchemaBuilder();
+        $schema->blueprintResolver(function($table, $callback) {
+            return new Blueprint($table, $callback);
+        });
+
+        $schema->create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('title');
