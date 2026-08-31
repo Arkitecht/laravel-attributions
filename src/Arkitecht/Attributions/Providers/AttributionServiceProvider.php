@@ -29,8 +29,8 @@ class AttributionServiceProvider extends ServiceProvider
     {
         $this->app->bind('db.schema', function ($app) {
             $builder = $app['db']->connection()->getSchemaBuilder();
-            $builder->blueprintResolver(function ($table, $callback) {
-                return new Blueprint($table, $callback);
+            $builder->blueprintResolver(function ($connection, $table, $callback) {
+                return new Blueprint($connection, $table, $callback);
             });
 
             return $builder;
